@@ -1,5 +1,7 @@
 include <libs/polyround.scad>
 
+include <libs/shape_petal.scad>
+
 include <battery-18650.scad>
 
 //	2024-06-23
@@ -38,32 +40,6 @@ gl_metal_tab = 12.0;
 //Thickness of the metal tab
 gw_metal_tab = 0.5;
 
-gx_show_example_one_battery = true;
-
-gx_show_example_two_batteries_side_by_side = false;
-
-gx_show_example_2s2p = false;
-
-//Donut section resting on its belly
-module donut( ir_inner, ir_thickness, il_length, ia_angle, in_precision = 0.5 )
-{
-    //Rest on donut belly
-    translate([0,0,ir_inner+ir_thickness])
-    rotate([90,90,90])
-    //Donut construction
-    rotate_extrude(angle=ia_angle, $fa = in_precision, $fs=in_precision)
-    translate([ir_inner,0,0]) 
-    square([ir_thickness,il_length]);
-
-    //Add a cylinder on top of the donut to close in STYLE the shape
-    //Move the cylinder on the tip of the donut
-    translate([0,(ir_thickness/2+ir_inner)*sin(ia_angle),ir_thickness/2 +(ir_thickness/2+ir_inner)*(1-cos(ia_angle)) ])
-    //Rotate the cylinder in the right direction
-    rotate([0,90,0])
-    //Construct the cylinder
-    linear_extrude(il_length)
-    circle(d=ir_thickness, $fa=in_precision, $fs=in_precision);
-}
 
 //I make half support and drill the hole
 //ia_section = controls the strength of the support. 0 is none. 90 comes up to half battery. the more up the more it retains, but the harder it is to insert
@@ -86,8 +62,14 @@ module half_support_18650( ir_inner, ir_thickness, il_support, ia_section )
     linear_extrude(il_support)
     polygon(polyRound(aan_points,100));
 
-    //Construct the battery housing
-    donut( ir_inner, ir_thickness, il_support, ia_section );
+	shape_petal
+	(
+		i_r_inner = ir_inner,
+		i_r_thickness = ir_thickness,
+		i_l_length =il_support,
+		i_a_angle = ia_section,
+		i_e = 0.01
+	);
 }
 
 //Support around a full battery
@@ -150,7 +132,10 @@ module contact_18650( in_precision = 0.5 )
 }
 
 //Instance holder for a signle 18650 battery
-module single_18650_holder( ix_show_battery = true )
+module single_18650_holder
+(
+	ix_show_battery = true
+)
 {
     nl_base = 50;
 
@@ -344,23 +329,12 @@ module holder_18650_2s2p( ix_show_battery = true )
     contact_18650();
 }
 
-if(gx_show_example_one_battery == true)
-{
-    single_18650_holder( ix_show_battery = true );
 
-}
-
-if( gx_show_example_two_batteries_side_by_side == true)
-{
-
-    double_18650_holder();
-}
-
-if (gx_show_example_2s2p == true)
-{
-    holder_18650_2s2p( ix_show_battery = false );
-}
+single_18650_holder( ix_show_battery = false );
+//single_18650_holder( ix_show_battery = true );
 
 
-//battery_18650();
-//
+//double_18650_holder();
+
+//holder_18650_2s2p( ix_show_battery = false );
+

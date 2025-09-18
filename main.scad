@@ -5,7 +5,7 @@
 
 include <minipupper-belly.scad>
 
-include <battery-18650.scad>
+include <libs/battery-18650.scad>
 
 //
 gpl_battery = 100;
