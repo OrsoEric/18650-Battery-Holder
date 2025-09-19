@@ -51,3 +51,11 @@ module shape_cylinder
 //shape_cylinder(i_d = 20);
 
 //shape_cylinder(i_r = 20);
+
+if (false)
+shape_cylinder
+(
+	i_d = 20,
+	i_h = 10,
+	i_e = 0.1
+);
