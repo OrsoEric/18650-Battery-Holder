@@ -201,7 +201,7 @@ module battery_18650_contact_holder
 }
 
 //Cap without tab spring shown
-battery_18650_contact_holder();
+//battery_18650_contact_holder();
 
 //Cap with tab spring shown
 //battery_18650_contact_holder(ib_show_tab=true);
