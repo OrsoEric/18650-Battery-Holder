@@ -40,6 +40,22 @@ Printed to test tollerances
 
 ![](/Images/2025-11-02-T1256.jpg)
 
-## Single Battery Holder
+## Holder S1P1 Single Battery
+
+S mean series, P means parallel
+
+3.7V nominal
+4.2V max
+
+![](/Images/2025-11-02-T1357-S1P1-Spring-Compressed.png)
+
+![](/Images/2025-11-02-T1400%20Holder%20S1P1.png)
+
+## Holder S2P2 Quad Battery
+
+3.7 * 4 = 14.8V nominal
+4.2 * 4 = 16.8V max
+
+
 
 
