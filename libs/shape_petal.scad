@@ -97,6 +97,7 @@ module shape_petal
 	);
 }
 
+if (false)
 shape_petal
 (
 	i_r_inner = 10,

@@ -4,6 +4,9 @@ include <libs/shape_petal.scad>
 
 include <battery-18650.scad>
 
+//Include the geometry for the tab that contact with the battery, and the endcap of the battery holder
+include <battery-18650-tabs.scad>
+
 //	2024-06-23
 //	Printed but too short for the batteries
 
@@ -87,7 +90,10 @@ module full_support_18650(ir_inner, ir_thickness, il_support, ia_section)
 }
 
 //metal contact for the terminals of the battery
-module contact_18650( in_precision = 0.5 )
+module contact_18650
+(
+	in_precision = 0.5
+)
 {
     nw_metal_tab_drill = 2.0;
     //Height  of the larger drill to accomodate the spring
@@ -131,10 +137,16 @@ module contact_18650( in_precision = 0.5 )
     }
 }
 
+
+
 //Instance holder for a signle 18650 battery
 module single_18650_holder
 (
-	ix_show_battery = true
+	//Width of the wire slot
+	it_slot_wire = 1,
+	iw_slot_wire = 4,
+	//Show the battery model
+	ix_show_battery = false
 )
 {
     nl_base = 50;
@@ -150,26 +162,97 @@ module single_18650_holder
     //short wings to retain the battery aligned
     //Tall wings to clip the battery in place
 
-    //Retaining wing butt
-    color("red")
-    full_support_18650( gd_18650_support/2, gw_18650_support, gl_18650_support/6, ga_18650_support);
+	difference()
+	{
+		union()
+		{
+			//Retaining wing butt
+			color("red")
+			full_support_18650( gd_18650_support/2, gw_18650_support, gl_18650_support/6, ga_18650_support);
 
-    //Retaining wing front
-    color("red")
-    translate([gl_18650_support *(5/6),0,0])
-    full_support_18650( gd_18650_support/2, gw_18650_support, gl_18650_support/6, ga_18650_support);
+			//Retaining wing front
+			color("red")
+			translate([gl_18650_support *(5/6),0,0])
+			full_support_18650( gd_18650_support/2, gw_18650_support, gl_18650_support/6, ga_18650_support);
 
-    //Support wing
-    color("red")
-    full_support_18650( gd_18650_support/2, gw_18650_support, gl_18650_support, ga_18650_guide);
+			//Support wing
+			color("red")
+			full_support_18650( gd_18650_support/2, gw_18650_support, gl_18650_support, ga_18650_guide);
 
-    //Front cap
-    contact_18650();
+			//Front cap
+			translate([0,0,gw_18650_support])
+			battery_18650_contact_holder
+			(
+				//Size of the cylindrical endcap of the holder
+				id_18650_cap = gd_18650_support,
+				it_18650_cap = 3,
+				//Thickness of the material behind the cap
+				it_cap_back = it_slot_wire,
+				//Size of the backplate of the tab with spring, this should include the tollerance
+				il_tab = 11,
+				iw_tab = 11,
+				//Size of the rails where the tab slots in. This should leave space for the spring itself
+				iw_tab_rail = 2,
+				//Thickness of the plate of the tab with spring, this should include the tollerance
+				//There are two tiny inserts to lock the plate and need to slide in
+				it_tab = 1.5,
+				//Slot carved in the back to expose the plate for soldering
+				il_slot_wire = 10,
+				iw_slot_wire = iw_slot_wire,
+				//Show the model of the tab spring
+				ib_show_tab = false,
+				//Precision of the circle
+				ie_error = 0.01
+			);
 
-    //Rear cap
-    translate([gl_18650_support -0*gw_18650_cap,0,0])
-    rotate([0,0,180])
-    contact_18650();
+			//Rear cap
+			translate([gl_18650_support,0,gw_18650_support])
+			rotate([0,0,180])
+			battery_18650_contact_holder
+			(
+				//Size of the cylindrical endcap of the holder
+				id_18650_cap = gd_18650_support,
+				it_18650_cap = 3,
+				//Thickness of the material behind the cap
+				it_cap_back = it_slot_wire,
+				//Size of the backplate of the tab with spring, this should include the tollerance
+				il_tab = 11,
+				iw_tab = 11,
+				//Size of the rails where the tab slots in. This should leave space for the spring itself
+				iw_tab_rail = 2,
+				//Thickness of the plate of the tab with spring, this should include the tollerance
+				//There are two tiny inserts to lock the plate and need to slide in
+				it_tab = 1.5,
+				//Slot carved in the back to expose the plate for soldering
+				il_slot_wire = 10,
+				iw_slot_wire = iw_slot_wire,
+				//Show the model of the tab spring
+				ib_show_tab = false,
+				//Precision of the circle
+				ie_error = 0.01
+			);
+		}	//End Sum
+
+		union()
+		{
+			//FRONT
+			//Drill from the back space to solder the wire
+			translate([0,0,gw_18650_support*1.5/2])
+			rotate([0,-90,180])
+			linear_extrude(it_slot_wire)
+			square([gw_18650_support*1.5,iw_slot_wire],center=true);
+
+			//REAR
+			//Drill from the back space to solder the wire
+			translate([gl_18650_support+0.01,0,gw_18650_support*1.5/2])
+			rotate([0,-90,0])
+			linear_extrude(it_slot_wire)
+			square([gw_18650_support*1.5,iw_slot_wire],center=true);
+
+		} //End Subtract
+
+	} //End difference
+	
 }
 
 module double_18650_holder( ix_show_battery = true )
@@ -331,6 +414,7 @@ module holder_18650_2s2p( ix_show_battery = true )
 
 
 single_18650_holder( ix_show_battery = false );
+
 //single_18650_holder( ix_show_battery = true );
 
 
