@@ -51,6 +51,15 @@ S mean series, P means parallel
 
 ![](/Images/2025-11-02-T1400%20Holder%20S1P1.png)
 
+First test, it's close. Fix:
+- I did double spring that's not smart, I do have a button contact for the positive tab
+- The center wing is too weak, I need to make it longer
+- Ticker construction?
+
+![](/Images/2025-11-02-T_1600%20Test%20Golder%20S1P1.jpg)
+
+![](/Images/2025-11-02-T1601%20Test%20Golder%20S1P1.jpg)
+
 ## Holder S2P2 Quad Battery
 
 3.7 * 4 = 14.8V nominal
