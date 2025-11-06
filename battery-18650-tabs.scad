@@ -118,14 +118,16 @@ module battery_18650_contact_holder
 	//Size of the backplate of the tab with spring, this should include the tollerance
 	il_tab = 11.5,
 	iw_tab = 11.5,
+	//Size of the spring or button
+	it_tab_spring = 8,
 	//Size of the rails where the tab slots in. This should leave space for the spring itself
 	iw_tab_rail = 1.75,
 	//Thickness of the plate of the tab with spring, this should include the tollerance
 	//There are two tiny inserts to lock the plate and need to slide in
 	it_tab = 1.25,
 	//Slot carved in the back to expose the plate for soldering
-	il_slot_wire = 11,
-	iw_slot_wire = 4,
+	il_slot_wire = 6,
+	iw_slot_wire = 5,
 	//Show the model of the tab spring
 	ib_show_tab = false,
 	//Precision of the circle
@@ -153,7 +155,6 @@ module battery_18650_contact_holder
         //Drill a space for the contacts
         union()
         {
-
 			//Drill the plate
 			//if(false)
 			translate([it_cap_back,0,id_18650_cap/2])
@@ -181,10 +182,18 @@ module battery_18650_contact_holder
 			square([il_tab,iw_tab-2*iw_tab_rail],center=true);
 
 			//Drill from the back space to solder the wire
-			translate([0,0,iw_slot_wire/2])
+			translate([0,0,il_slot_wire/2])
 			rotate([0,-90,180])
 			linear_extrude(it_cap_back)
 			square([il_slot_wire,iw_slot_wire],center=true);
+
+			//Add an arc to make it printable without support
+			//if (false)
+			translate([0,0,il_slot_wire])
+			rotate([0,-90,180])
+			linear_extrude(it_cap_back)
+			circle(d=iw_slot_wire,$fn=40);
+
         }
     }
 
@@ -194,8 +203,11 @@ module battery_18650_contact_holder
 	rotate([0,0,90])
 	battery_18650_tab_spring
 	(
+		//Size of the plate
 		i_l_plate = il_tab,
 		i_w_plate = iw_tab,
+		//Size of the spring and tab
+		i_h_tab = it_tab_spring
 	);
 
 }
@@ -223,22 +235,6 @@ if (false)
         i_d_hole = 1.75,
         i_wi_hole = 8,
         i_h_tab = 8, // Total height with spring
-        i_d_base = 6,
-        i_d_tip = 5,
-        i_e_precision = 0.01
-    );
-
-if (false)
-    battery_18650_tab_spring(
-        i_l_plate = 10,
-        i_w_plate = 10,
-        i_t_plate = 0.1,
-        i_l_lock = 2,
-        i_w_lock = 1,
-        i_h_lock = 1,
-        i_d_hole = 1.75,
-        i_wi_hole = 8,
-        i_h_tab = 2, // Adjusted height for a male tab
         i_d_base = 6,
         i_d_tip = 5,
         i_e_precision = 0.01

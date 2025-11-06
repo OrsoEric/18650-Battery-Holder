@@ -22,7 +22,7 @@ Battery Constants:
 gc_l_18650 = 66.0;
 gc_d_18650 = 18.4;
 gc_l_18650_key = 3.0;
-gc_d_18650_key = 10.0;
+gc_d_18650_key = 8.0;
 
 /* 
 Module: battery_18650
