@@ -557,7 +557,7 @@ module holder_18650_2s2p
 	ilk_wing = 10,
 
 	//Angle of the wings keeping the battery in place
-	ia_wing = 110,
+	ia_wing = 113,
 	//Angle of the cradle where the battery rests
 	ia_cradle = 90,
 	//Angle for the guide between batteries
@@ -713,7 +713,7 @@ module holder_18650_2s2p
 				ie_error = 0.01
 			);
 
-			//READ RIGHT WING
+			//REAR RIGHT WING
 			color("red")
 			translate
 			([
@@ -729,6 +729,24 @@ module holder_18650_2s2p
 				ia_section_right = ia_guide,
 				ia_section_left = ia_wing
 			);
+
+			//REAR LEFT FILL
+			color("red")
+			translate
+			([
+				0,
+				+id_18650/2,
+				0
+			])
+			full_support_18650_asymmetric
+			(
+				ir_inner = id_18650 / 2,
+				ir_thickness = it_wall,
+				il_support = it_cap,
+				ia_section_right = ia_wing,
+				ia_section_left = ia_wing
+			);
+
 
 			//----------------------------------------------------------
 			//	CORE
@@ -770,17 +788,38 @@ module holder_18650_2s2p
 				ia_section_left = ia_cradle
 			);
 
-
-			//Retaining wing center
-			if (false)
+			//CENTER LEFT WING
 			color("red")
-			translate([l_total * (1 -1/ilk_wing) / 2,0,0])
-			full_support_18650
+			translate
+			([
+				l_total * (1 -1/ilk_wing) / 2,
+				+id_18650/2,
+				0
+			])
+			full_support_18650_asymmetric
 			(
-				id_18650 / 2,
-				it_wall,
-				l_total / ilk_wing,
-				ia_wing
+				ir_inner = id_18650 / 2,
+				ir_thickness = it_wall,
+				il_support = l_total / ilk_wing,
+				ia_section_right = ia_wing,
+				ia_section_left = ia_guide
+			);
+
+			//CENTER RIGH WING
+			color("red")
+			translate
+			([
+				l_total * (1 -1/ilk_wing) / 2,
+				-id_18650/2,
+				0
+			])
+			full_support_18650_asymmetric
+			(
+				ir_inner = id_18650 / 2,
+				ir_thickness = it_wall,
+				il_support = l_total / ilk_wing,
+				ia_section_right = ia_guide,
+				ia_section_left = ia_wing
 			);
 
 
@@ -894,9 +933,22 @@ module holder_18650_2s2p
 				ia_section_left = ia_wing
 			);
 
-
-			
-
+			//FRONT LEFT FILL
+			color("red")
+			translate
+			([
+				l_total -it_cap,
+				+id_18650/2,
+				0
+			])
+			full_support_18650_asymmetric
+			(
+				ir_inner = id_18650 / 2,
+				ir_thickness = it_wall,
+				il_support = it_cap,
+				ia_section_right = ia_wing,
+				ia_section_left = ia_wing
+			);
 
 		}	//End Sum
 
@@ -921,96 +973,6 @@ module holder_18650_2s2p
 }
 
 
-
-
-
-
-
-
-module old_holder_18650_2s2p( ix_show_battery = true )
-{
-    //width of the tall support
-    nk_tall_support = 1/20;
-    //4K (1-4K)
-    //1K  (1-4K)/2  2K  (1-4K)/2  1K
-    // B      s      B      s      B
-
-    na_between = 60;
-    //Distance betwenn the two batteries
-    ni_between = gd_18650;
-    
-    //battery
-    if (ix_show_battery == true)
-    {
-        translate([(gl_18650_support-gl_18650)/2,-gi_18650_double_support/2,gw_18650_support])
-        battery_18650(ix_sideway = 1);
-
-        translate([(gl_18650_support-gl_18650)/2 +gl_18650,-gi_18650_double_support/2,gw_18650_support])
-        battery_18650(ix_sideway = 1);
-
-        translate([(gl_18650_support-gl_18650)/2,+gi_18650_double_support/2,gw_18650_support])
-        battery_18650(ix_sideway = 1, in_invert_poles=true);
-        
-        translate([(gl_18650_support-gl_18650)/2 +gl_18650,+gi_18650_double_support/2,gw_18650_support])
-        battery_18650(ix_sideway = 1, in_invert_poles=true);
-    }
-
-    //Tall support
-    translate([0,gi_18650_double_support/2,0])
-    half_support_18650(gd_18650_support/2, gw_18650_support, gl_18650_support_2s *nk_tall_support, ga_18650_support);
-
-    //guide
-    translate([gl_18650_support_2s *nk_tall_support,gi_18650_double_support/2,0])
-    half_support_18650(gd_18650_support/2, gw_18650_support, gl_18650_support_2s *(1-4*nk_tall_support)/2, ga_18650_guide );
-
-    //Tall support for two batteries
-    translate([gl_18650_support_2s *(1*nk_tall_support+ (1-4*nk_tall_support)/2) ,gi_18650_double_support/2,0])
-    half_support_18650(gd_18650_support/2, gw_18650_support, gl_18650_support_2s *2* nk_tall_support, ga_18650_support);
-
-    //guide
-    translate([gl_18650_support_2s *(1/2+nk_tall_support),gi_18650_double_support/2,0])
-    half_support_18650(gd_18650_support/2, gw_18650_support, gl_18650_support_2s *(1-4*nk_tall_support)/2, ga_18650_guide );
-
-    //Tall support for two batteries
-    translate([gl_18650_support_2s *(1-nk_tall_support),gi_18650_double_support/2,0])
-    half_support_18650(gd_18650_support/2, gw_18650_support, gl_18650_support_2s * nk_tall_support, ga_18650_support);
-
-    //guide in between two batteries
-
-    //build a shorter wing on the left side of the right battery
-    translate([0,-gi_18650_double_support/2,0])
-    half_support_18650(gd_18650_support/2, gw_18650_support, gl_18650_support_2s, na_between);
-    
-    //build a shorter wing on the right side of the left battery
-    translate([gl_18650_support_2s,gi_18650_double_support/2,0])
-    rotate([0,0,180])
-    half_support_18650(gd_18650_support/2, gw_18650_support, gl_18650_support_2s, na_between);
-    translate([gl_18650_support_2s,0,0])
-    rotate([0,0,180])
-    {
-        //Tall support
-        translate([0,gi_18650_double_support/2,0])
-        half_support_18650(gd_18650_support/2, gw_18650_support, gl_18650_support_2s *nk_tall_support, ga_18650_support);
-
-        //guide
-        translate([gl_18650_support_2s *nk_tall_support,gi_18650_double_support/2,0])
-        half_support_18650(gd_18650_support/2, gw_18650_support, gl_18650_support_2s *(1-4*nk_tall_support)/2, ga_18650_guide );
-
-        //Tall support for two batteries
-        translate([gl_18650_support_2s *(1*nk_tall_support+ (1-4*nk_tall_support)/2) ,gi_18650_double_support/2,0])
-        half_support_18650(gd_18650_support/2, gw_18650_support, gl_18650_support_2s *2* nk_tall_support, ga_18650_support);
-
-        //guide
-        translate([gl_18650_support_2s *(1/2+nk_tall_support),gi_18650_double_support/2,0])
-        half_support_18650(gd_18650_support/2, gw_18650_support, gl_18650_support_2s *(1-4*nk_tall_support)/2, ga_18650_guide );
-
-        //Tall support for two batteries
-        translate([gl_18650_support_2s *(1-nk_tall_support),gi_18650_double_support/2,0])
-        half_support_18650(gd_18650_support/2, gw_18650_support, gl_18650_support_2s * nk_tall_support, ga_18650_support);
-    }
-
-}
-
 ///	HOLDER ONE BATTERY 1S 1P
 
 //holder_18650_1s1p();
@@ -1023,15 +985,10 @@ module old_holder_18650_2s2p( ix_show_battery = true )
 
 //holder_18650_2s1p( ix_show_battery = true, ix_show_tab = true );
 
-holder_18650_2s2p( ix_show_battery = true, ix_show_tab = true );
+///	HOLDER FOUR BATTERIES 2S 2P
+
+holder_18650_2s2p();
+
+//holder_18650_2s2p( ix_show_battery = true, ix_show_tab = true );
 
 	
-
-
-//single_18650_holder( ix_show_battery = true );
-
-
-//double_18650_holder();
-
-//holder_18650_2s2p( ix_show_battery = false );
-
