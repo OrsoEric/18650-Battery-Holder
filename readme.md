@@ -40,7 +40,7 @@ Printed to test tollerances
 
 ![](/Images/2025-11-02-T1256.jpg)
 
-## Holder S1P1 Single Battery
+## Holder 1S1P Single Battery
 
 S mean series, P means parallel
 
@@ -60,11 +60,19 @@ First test, it's close. Fix:
 
 ![](/Images/2025-11-02-T1601%20Test%20Golder%20S1P1.jpg)
 
-## Holder S2P2 Quad Battery
+## Holder 2S1P Dual Battery
+
+![](/Images/2025-11-06-T1219_scad_2s1p.png)
+
+![](/Images/2025-11-06-T1209_holder_2s1p.jpg)
+
+## Holder 2S2P Quad Battery
 
 3.7 * 4 = 14.8V nominal
 4.2 * 4 = 16.8V max
 
+![](/Images/2025-11-06-T1600_scad_holder_2s2p.png)
 
+## Soldering
 
-
+<video src="/Videos/2025-11-06_18650_Battery_Holder_1S1P_2S2P_Solder_Test.mp4" width="720" height="480" controls></video>
