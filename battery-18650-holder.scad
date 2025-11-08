@@ -557,7 +557,7 @@ module holder_18650_2s2p
 	ilk_wing = 10,
 
 	//Angle of the wings keeping the battery in place
-	ia_wing = 113,
+	ia_wing = 116,
 	//Angle of the cradle where the battery rests
 	ia_cradle = 90,
 	//Angle for the guide between batteries
@@ -987,7 +987,7 @@ module holder_18650_2s2p
 
 ///	HOLDER FOUR BATTERIES 2S 2P
 
-holder_18650_2s2p();
+//holder_18650_2s2p();
 
 //holder_18650_2s2p( ix_show_battery = true, ix_show_tab = true );
 
